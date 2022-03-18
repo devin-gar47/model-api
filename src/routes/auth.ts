@@ -4,7 +4,15 @@ import express from 'express'
 
 const app = express()
 const bcrypt = require('bcrypt')
+const cors = require('cors')
 const prisma = new PrismaClient()
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200,
+}
+
+app.use(cors(corsOptions))
 
 app.post('/signup', async (req, res) => {
     try {
@@ -16,7 +24,7 @@ app.post('/signup', async (req, res) => {
                 password: hashedPassword,
             },
         })
-        res.status(200).send(await prisma.user.findMany())
+        res.status(200).send('User created successfully')
     } catch (e) {
         res.status(500).send(e)
     }
