@@ -59,7 +59,7 @@ async function main() {
 }
 
 app.get('/test', async (req, res) => {
-  res.send({messgae: 'It works!'})
+  res.send({message: 'It works!'})
 })
 
 app.get('/update', async (req, res) => {
