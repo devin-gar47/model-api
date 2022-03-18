@@ -3,13 +3,12 @@ import { PrismaClient } from '@prisma/client'
 import { DataType } from './types/types';
 
 const app = express();
-const bodyParser = require('body-parser')
 const authRouter = require('./routes/auth')
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
+app.use(express.json());
+app.use(express.urlencoded({
   extended: true
 }));
+
 const prisma = new PrismaClient()
 const port = process.env.PORT || 3030;
 

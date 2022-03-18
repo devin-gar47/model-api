@@ -1,8 +1,9 @@
 import { PrismaClient } from '@prisma/client'
+import { generateAccessToken } from '../utils/jwt-utils'
 import express from 'express'
+
 const app = express()
 const bcrypt = require('bcrypt')
-
 const prisma = new PrismaClient()
 
 app.post('/signup', async (req, res) => {
@@ -28,10 +29,18 @@ app.post('/login', async (req, res) => {
             username: req.body.username
         }
     })
+    
     if(!user) return res.status(400).send('Cannot find user!')
 
     try {
-        await bcrypt.compare(req.body.password, user.password) ? res.status(200).send('Success!') : res.status(400).send('Password is incorrect!')
+        const compare = await bcrypt.compare(req.body.password, user.password)
+        if(compare){
+          const accessToken = generateAccessToken(user)
+          res.json({accessToken})        
+        }
+        else { 
+          res.status(403).send('Invalid password')
+        }
     }
     catch(e){
         res.status(500).send(e)
