@@ -1,15 +1,16 @@
 import  express from 'express'
 import { PrismaClient } from '@prisma/client'
-import { DataType } from './types/types';
+import { DataType } from './src/types/types';
 
 const app = express();
-const bodyParser = require('body-parser')
-const authRouter = require('./routes/auth')
+const authRouter = require('./src/routes/auth')
+const tableRouter = require('./src/routes/table')
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
+app.use(express.json());
+app.use(express.urlencoded({
   extended: true
 }));
+
 const prisma = new PrismaClient()
 const port = process.env.PORT || 3030;
 
@@ -71,9 +72,9 @@ app.get('/test', async (req, res) => {
 app.get('/update', async (req, res) => {
   const infoObj = req.body
   try{
-  await updateRow(infoObj)
-  const results = await prisma.testtable2.findMany()
-  res.send(results)
+    await updateRow(infoObj)
+    const results = await prisma.testtable2.findMany()
+    res.send(results)
   }
   catch(e){
     res.status(500).send({error: e})
@@ -81,6 +82,7 @@ app.get('/update', async (req, res) => {
 })
 
 app.use('/user', authRouter)
+app.use('/table', tableRouter)
 
 app.listen(port, () => {
   console.log(`Application is running on port ${port}.`);
