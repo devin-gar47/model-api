@@ -5,7 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon index.ts"
+    "serve": "nodemon index.ts",
+    "pre-push": "npx prettier --write ./src && git add . && git status"
   },
   "author": "",
   "license": "ISC",
