@@ -59,14 +59,7 @@ async function main() {
 }
 
 app.get('/test', async (req, res) => {
-  try{
-  await main()
-  const results = await prisma.testtable2.findMany()
-  res.send(results)
-  }
-  catch(e){
-    res.status(500).send({error: e})
-  }
+  res.send({messgae: 'It works!'})
 })
 
 app.get('/update', async (req, res) => {
