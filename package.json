@@ -26,5 +26,8 @@
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "prisma": "^3.10.0"
-  }
+  },
+  "engines": {
+    "node": "16.14.0"
+}
 }
