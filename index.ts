@@ -1,6 +1,5 @@
 const express = require('express')
-import {PrismaClient} from '@prisma/client'
-import {DataType} from './src/types/types'
+const { PrismaClient } = require('@prisma/client')
 
 const app = express();
 const authRouter = require('./src/routes/auth')
@@ -14,7 +13,7 @@ app.use(express.urlencoded({
 const prisma = new PrismaClient()
 const port = process.env.PORT || 3030;
 
-async function updateRow(newInfoObj: DataType): Promise<void> {
+async function updateRow(newInfoObj): Promise<void> {
  await prisma.testtable2.update(
     {
       where: {
