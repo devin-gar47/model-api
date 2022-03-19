@@ -13,7 +13,7 @@ app.use(express.urlencoded({
 const prisma = new PrismaClient()
 const port = process.env.PORT || 3030;
 
-async function updateRow(newInfoObj): Promise<void> {
+async function updateRow(newInfoObj) {
  await prisma.testtable2.update(
     {
       where: {
