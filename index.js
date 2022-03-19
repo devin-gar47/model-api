@@ -1,9 +1,10 @@
-const express = require('express')
-const { PrismaClient } = require('@prisma/client')
+import prismaClient from '@prisma/client';
+import express from 'express'
+import authRouter from './src/routes/auth.js'
+import tableRouter from './src/routes/table.js'
 
 const app = express();
-const authRouter = require('./src/routes/auth')
-const tableRouter = require('./src/routes/table')
+const { PrismaClient } = prismaClient
 
 app.use(express.json());
 app.use(express.urlencoded({

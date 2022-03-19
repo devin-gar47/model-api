@@ -1,10 +1,11 @@
-import { PrismaClient } from '@prisma/client'
-import { generateAccessToken } from '../utils/jwt-utils'
+import prismaClient from '@prisma/client';
+import { generateAccessToken } from '../utils/jwt-utils.js'
 import express from 'express'
+import bcrypt from 'bcrypt'
+import cors from 'cors'
 
-const app = express()
-const bcrypt = require('bcrypt')
-const cors = require('cors')
+const { PrismaClient } = prismaClient
+const authRouter = express()
 const prisma = new PrismaClient()
 
 const corsOptions = {
@@ -12,9 +13,9 @@ const corsOptions = {
     optionsSuccessStatus: 200,
 }
 
-app.use(cors(corsOptions))
+authRouter.use(cors(corsOptions))
 
-app.post('/signup', async (req, res) => {
+authRouter.post('/signup', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         await prisma.user.create({
@@ -30,7 +31,7 @@ app.post('/signup', async (req, res) => {
     }
 })
 
-app.post('/login', async (req, res) => {
+authRouter.post('/login', async (req, res) => {
     const user = await prisma.user.findUnique({
         where: {
             username: req.body.username,
@@ -52,4 +53,4 @@ app.post('/login', async (req, res) => {
     }
 })
 
-module.exports = app
+export default authRouter
