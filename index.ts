@@ -1,6 +1,6 @@
-import  express from 'express'
-import { PrismaClient } from '@prisma/client'
-import { DataType } from './src/types/types';
+const express = require('express')
+import {PrismaClient} from '@prisma/client'
+import {DataType} from './src/types/types'
 
 const app = express();
 const authRouter = require('./src/routes/auth')
