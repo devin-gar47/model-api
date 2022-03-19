@@ -33,7 +33,6 @@ async function updateRow(newInfoObj: DataType): Promise<void> {
 }
 
 async function main() {
-  // ... you will write your Prisma Client queries here
   const test = await prisma.testtable2.create(
     {
       data: {
@@ -58,8 +57,12 @@ async function main() {
   return test
 }
 
-app.get('/test', async (req, res) => {
+app.get('/', async (req, res) => {
   res.send({message: 'It works!'})
+})
+
+app.get('/test', async (req, res) => {
+  res.send({message: 'It works test!'})
 })
 
 app.get('/update', async (req, res) => {
