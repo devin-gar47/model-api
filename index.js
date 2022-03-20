@@ -1,18 +1,25 @@
 import prismaClient from '@prisma/client';
 import express from 'express'
-import authRouter from './src/routes/auth.js'
-import tableRouter from './src/routes/table.js'
+import authRouter from './src/routes/auth-routes.js'
+import tableRouter from './src/routes/table-routes.js'
+import cors from 'cors'
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200,
+}
+authRouter.use(cors(corsOptions))
 
 const app = express();
 const { PrismaClient } = prismaClient
+const prisma = new PrismaClient()
+const port = process.env.PORT || 3030;
 
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
 
-const prisma = new PrismaClient()
-const port = process.env.PORT || 3030;
 
 async function updateRow(newInfoObj) {
  await prisma.testtable2.update(
@@ -20,8 +27,8 @@ async function updateRow(newInfoObj) {
       where: {
         year_sport_home_division: {
           year: 2017,
-          sport: "",
-          home: false,
+          sport: "Baseball",
+          home: true,
           division: false
         }
       },

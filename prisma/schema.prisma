@@ -12,7 +12,7 @@ datasource db {
 
 model testtable2 {
   id                        Int    @id @default(autoincrement())
-  ou                        String @db.VarChar(10)
+  ou                        String  @db.VarChar(10)
   year                      Int
   sport                     String @db.VarChar(40)
   home                      Boolean
@@ -27,8 +27,9 @@ model testtable2 {
   dog_o1point5OR3point5     String @db.VarChar(50)
   home_mlo2point5           String @db.VarChar(50)
   home_mlo3point5           String @db.VarChar(50)
+  ifRoadMLOnePointFive      String @db.VarChar(50)
 
-  @@unique([year, sport, home, division])
+  @@unique([ou, year, sport, home, division])
 }
 
 model User {
