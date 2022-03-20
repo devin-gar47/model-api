@@ -20,25 +20,6 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-
-async function updateRow(newInfoObj) {
- await prisma.testtable2.update(
-    {
-      where: {
-        year_sport_home_division: {
-          year: 2017,
-          sport: "Baseball",
-          home: true,
-          division: false
-        }
-      },
-      data: {
-        year: newInfoObj.year
-      }
-    },
-  )
-}
-
 async function main() {
   const test = await prisma.testtable2.create(
     {
