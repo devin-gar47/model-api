@@ -1,18 +1,49 @@
 import prismaClient from '@prisma/client'
 import express from 'express'
 import { resetTable } from '../utils/table-utils.js'
+import cors from 'cors'
 
 const tableRouter = express()
 const { PrismaClient } = prismaClient
 const prisma = new PrismaClient()
-
-import cors from 'cors'
 
 const corsOptions = {
     origin: 'http://localhost:3000',
     optionsSuccessStatus: 200,
 }
 tableRouter.use(cors(corsOptions))
+
+async function updateRow(infoObj) {
+    const { ou, year, sport, home, division, newCellInfo } = infoObj
+    const { columnID, record } = newCellInfo
+    console.log(infoObj)
+    await prisma.testtable2.update({
+        where: {
+            ou_year_sport_home_division: {
+                ou,
+                year,
+                sport,
+                home,
+                division,
+            },
+        },
+        data: {
+            [columnID]: record,
+        },
+    })
+}
+
+tableRouter.put('/update-row', async (req, res) => {
+    const infoObj = req.body
+    try {
+        await updateRow(infoObj)
+        const results = await prisma.testtable2.findMany()
+        res.send(results)
+    } catch (e) {
+        console.log(e)
+        res.status(500).send(e)
+    }
+})
 
 tableRouter.post('/reset', async (req, res) => {
     try {
