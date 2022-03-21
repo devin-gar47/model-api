@@ -96,6 +96,9 @@ tableRouter.post('/get-table-data', async (req, res) => {
                 ifRoadMLOnePointFive: true,
             },
         })
+        tableInfo.sort((a, b) => {
+            return parseFloat(a.ou) < parseFloat(b.ou) ? -1 : 1
+        })
         res.status(200).send(tableInfo)
     } catch (e) {
         res.status(500).send(e)
