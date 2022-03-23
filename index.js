@@ -2,19 +2,20 @@ import prismaClient from '@prisma/client';
 import express from 'express'
 import authRouter from './src/routes/auth-routes.js'
 import tableRouter from './src/routes/table-routes.js'
+import draftKingsRouter from './src/routes/draft-kings-routes.js'
 import cors from 'cors'
 
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200,
-}
-authRouter.use(cors(corsOptions))
 
 const app = express();
 const { PrismaClient } = prismaClient
 const prisma = new PrismaClient()
 const port = process.env.PORT || 3030;
 
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200,
+}
+app.use(cors(corsOptions))
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
@@ -67,6 +68,7 @@ app.get('/update', async (req, res) => {
 
 app.use('/user', authRouter)
 app.use('/table', tableRouter)
+app.use('/draft-kings', draftKingsRouter)
 
 app.listen(port, () => {
   console.log(`Application is running on port ${port}.`);
