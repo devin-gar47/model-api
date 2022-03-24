@@ -7,7 +7,7 @@ const tableRouter = express()
 const { PrismaClient } = prismaClient
 const prisma = new PrismaClient()
 
-var whitelist = ['http://localhost:3000/', 'https://alex-model-api.herokuapp.com/']
+var whitelist = ['http://localhost:3000/', 'https://alex-model-project.herokuapp.com/']
 
 const corsOptions = {
     origin: (origin, callback) => {
