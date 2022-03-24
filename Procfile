@@ -1,1 +1,1 @@
-web: npx run prisma generate && npx prisma migrate deploy
+web: npx prisma migrate deploy
