@@ -10,7 +10,7 @@ const prisma = new PrismaClient()
 
 let toggle = true
 
-var whitelist = ['http://localhost:3000/', 'https://alex-model-api.herokuapp.com/']
+var whitelist = ['http://localhost:3000/', 'https://alex-model-project.herokuapp.com']
 
 const corsOptions = {
     origin: (origin, callback) => {
