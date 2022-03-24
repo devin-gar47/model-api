@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx prisma migrate dev && node index.js",
-    "serve": "nodemon index.js",
+    "start": " env-cmd -e development && npx prisma migrate dev && node index.js",
+    "serve": "env-cmd -e development nodemon index.js",
     "pre-push": "npx prettier --write ./src && git add . && git status"
   },
   "author": "",

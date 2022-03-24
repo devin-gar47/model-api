@@ -5,6 +5,7 @@ import tableRouter from './src/routes/table-routes.js'
 import draftKingsRouter from './src/routes/draft-kings-routes.js'
 import cors from 'cors'
 
+console.log(process.env.NODE_ENV)
 
 const app = express();
 const { PrismaClient } = prismaClient
