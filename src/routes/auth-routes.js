@@ -8,10 +8,15 @@ const { PrismaClient } = prismaClient
 const authRouter = express()
 const prisma = new PrismaClient()
 
+var whitelist = ['http://localhost:3000/', 'https://alex-model-api.herokuapp.com/']
+
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: (origin, callback) => {
+        whitelist.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Not allowed by CORS'))
+    },
     optionsSuccessStatus: 200,
 }
+
 authRouter.use(cors(corsOptions))
 
 authRouter.post('/reset', async (req, res) => {

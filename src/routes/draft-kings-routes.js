@@ -10,8 +10,12 @@ const prisma = new PrismaClient()
 
 let toggle = true
 
+var whitelist = ['http://localhost:3000/', 'https://alex-model-api.herokuapp.com/']
+
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: (origin, callback) => {
+        whitelist.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Not allowed by CORS'))
+    },
     optionsSuccessStatus: 200,
 }
 draftKingsRouter.use(cors(corsOptions))
