@@ -21,7 +21,7 @@ app.use(express.urlencoded({
 }));
 
 async function main() {
-  const test = await prisma.testtable2.create(
+  const test = await prisma.sportstable.create(
     {
       data: {
         ou: '7',
@@ -57,7 +57,7 @@ app.get('/update', async (req, res) => {
   const infoObj = req.body
   try{
     await updateRow(infoObj)
-    const results = await prisma.testtable2.findMany()
+    const results = await prisma.sportstable.findMany()
     res.send(results)
   }
   catch(e){

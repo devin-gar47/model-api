@@ -12,4 +12,4 @@ CREATE TABLE "User" (
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- RenameIndex
-ALTER INDEX "year_sport_home_division_constraint" RENAME TO "testtable2_year_sport_home_division_key";
+ALTER INDEX "year_sport_home_division_constraint" RENAME TO "sportstable_year_sport_home_division_key";

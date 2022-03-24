@@ -17,7 +17,7 @@ async function updateRow(infoObj) {
     const { ou, year, sport, home, division, newCellInfo } = infoObj
     const { columnID, record } = newCellInfo
     console.log(infoObj)
-    await prisma.testtable2.update({
+    await prisma.sportstable.update({
         where: {
             ou_year_sport_home_division: {
                 ou,
@@ -37,7 +37,7 @@ tableRouter.put('/update-row', async (req, res) => {
     const infoObj = req.body
     try {
         await updateRow(infoObj)
-        const results = await prisma.testtable2.findMany()
+        const results = await prisma.sportstable.findMany()
         res.send(results)
     } catch (e) {
         console.log(e)
@@ -47,7 +47,7 @@ tableRouter.put('/update-row', async (req, res) => {
 
 tableRouter.post('/reset', async (req, res) => {
     try {
-        await prisma.testtable2.deleteMany({})
+        await prisma.sportstable.deleteMany({})
         const baseballHomeNonDiv2017Data = resetTable('BASEBALL', 2017, true, false)
         const baseballHomeDiv2017Data = resetTable('BASEBALL', 2017, true, true)
         const baseballHomeNonDiv2022Data = resetTable('BASEBALL', 2022, true, false)
@@ -58,7 +58,7 @@ tableRouter.post('/reset', async (req, res) => {
             ...baseballHomeNonDiv2022Data,
             ...baseballHomeDiv2022Data,
         ]
-        await prisma.testtable2.createMany({
+        await prisma.sportstable.createMany({
             data: finalArr,
         })
         res.send('complete')
@@ -70,7 +70,7 @@ tableRouter.post('/reset', async (req, res) => {
 tableRouter.post('/get-table-data', async (req, res) => {
     try {
         const { year, sport, home, division } = req.body
-        const tableInfo = await prisma.testtable2.findMany({
+        const tableInfo = await prisma.sportstable.findMany({
             where: {
                 year,
                 sport,

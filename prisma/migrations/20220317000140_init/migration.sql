@@ -1,2 +1,2 @@
 -- DropIndex
-DROP INDEX "testtable2_ou_key";
+DROP INDEX "sportstable_ou_key";
