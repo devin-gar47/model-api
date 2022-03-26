@@ -7,7 +7,7 @@ const tableRouter = express()
 const { PrismaClient } = prismaClient
 const prisma = new PrismaClient()
 
-var whitelist = ['http://localhost:3000/', 'https://alex-model-project.herokuapp.com']
+var whitelist = ['http://localhost:3000', 'https://alex-model-project.herokuapp.com']
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -16,7 +16,11 @@ const corsOptions = {
     },
     optionsSuccessStatus: 200,
 }
-tableRouter.use(cors(corsOptions))
+tableRouter.use(
+    cors({
+        origin: ['http://localhost:3000', 'https://alex-model-project.herokuapp.com'],
+    })
+)
 
 async function updateRow(infoObj) {
     const { ou, year, sport, home, division, newCellInfo } = infoObj

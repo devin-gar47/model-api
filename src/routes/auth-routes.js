@@ -17,7 +17,11 @@ const corsOptions = {
     optionsSuccessStatus: 200,
 }
 
-authRouter.use(cors(corsOptions))
+authRouter.use(
+    cors({
+        origin: ['http://localhost:3000', 'https://alex-model-project.herokuapp.com'],
+    })
+)
 
 authRouter.post('/reset', async (req, res) => {
     try {

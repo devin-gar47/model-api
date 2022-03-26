@@ -10,15 +10,19 @@ const prisma = new PrismaClient()
 
 let toggle = true
 
-var whitelist = ['http://localhost:3000/', 'https://alex-model-project.herokuapp.com']
+var whitelist = ['http://localhost:3000', 'https://alex-model-project.herokuapp.com']
 
-const corsOptions = {
-    origin: (origin, callback) => {
-        whitelist.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Not allowed by CORS'))
-    },
-    optionsSuccessStatus: 200,
-}
-draftKingsRouter.use(cors(corsOptions))
+// const corsOptions = {
+//     origin: (origin, callback) => {
+//         whitelist.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Not allowed by CORS'))
+//     },
+//     optionsSuccessStatus: 200,
+// }
+draftKingsRouter.use(
+    cors({
+        origin: ['http://localhost:3000', 'https://alex-model-project.herokuapp.com'],
+    })
+)
 
 draftKingsRouter.post('/reset', async (req, res) => {
     try {
