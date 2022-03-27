@@ -25,12 +25,6 @@ authRouter.use(
     })
 )
 
-authRouter.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Credentials', true)
-    res.header('Access-Control-Allow-Origin', '*')
-    next()
-})
-
 authRouter.post('/reset', async (req, res) => {
     try {
         await prisma.user.deleteMany({})
@@ -41,6 +35,7 @@ authRouter.post('/reset', async (req, res) => {
 })
 
 authRouter.post('/signup', async (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*')
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         await prisma.user.create({
