@@ -20,6 +20,8 @@ const corsOptions = {
 authRouter.use(
     cors({
         origin: ['http://localhost:3000', 'https://alex-model-project.herokuapp.com'],
+        optionsSuccessStatus: 200,
+        credentials: true,
     })
 )
 
