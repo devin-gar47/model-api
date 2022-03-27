@@ -23,6 +23,11 @@ authRouter.use(
     })
 )
 
+authRouter.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Credentials', true)
+    next()
+})
+
 authRouter.post('/reset', async (req, res) => {
     try {
         await prisma.user.deleteMany({})
