@@ -35,7 +35,7 @@ authRouter.post('/reset', async (req, res) => {
 })
 
 authRouter.post('/signup', async (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Origin', '*')
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         await prisma.user.create({
