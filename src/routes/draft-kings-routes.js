@@ -1,8 +1,5 @@
 import prismaClient from '@prisma/client'
-import { generateAccessToken } from '../utils/jwt-utils.js'
 import express from 'express'
-import bcrypt from 'bcrypt'
-import cors from 'cors'
 
 const { PrismaClient } = prismaClient
 const draftKingsRouter = express()
