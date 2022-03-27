@@ -13,6 +13,7 @@ const port = process.env.PORT || 3030;
 const corsOptions = {
   origin: ['http://localhost:3000', 'https://alex-model-project.herokuapp.com'],
   optionsSuccessStatus: 200,
+  credentials: true
 }
 
 app.use(function(req, res, next) {
