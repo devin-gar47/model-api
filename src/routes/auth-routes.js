@@ -2,34 +2,10 @@ import prismaClient from '@prisma/client'
 import { generateAccessToken } from '../utils/jwt-utils.js'
 import express from 'express'
 import bcrypt from 'bcrypt'
-import cors from 'cors'
 
 const { PrismaClient } = prismaClient
 const authRouter = express()
 const prisma = new PrismaClient()
-
-var whitelist = ['http://localhost:3000', 'https://alex-model-project.herokuapp.com']
-
-const corsOptions = {
-    origin: (origin, callback) => {
-        whitelist.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Not allowed by CORS'))
-    },
-    optionsSuccessStatus: 200,
-}
-
-authRouter.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-    next()
-})
-
-authRouter.use(
-    cors({
-        origin: ['http://localhost:3000', 'https://alex-model-project.herokuapp.com'],
-        optionsSuccessStatus: 200,
-        credentials: true
-    })
-)
 
 authRouter.post('/reset', async (req, res) => {
     try {
