@@ -17,6 +17,12 @@ const corsOptions = {
     optionsSuccessStatus: 200,
 }
 
+authRouter.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+    next()
+})
+
 authRouter.use(
     cors({
         origin: ['http://localhost:3000', 'https://alex-model-project.herokuapp.com'],
@@ -35,7 +41,6 @@ authRouter.post('/reset', async (req, res) => {
 })
 
 authRouter.post('/signup', async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         await prisma.user.create({
