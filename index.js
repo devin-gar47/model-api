@@ -70,14 +70,14 @@ app.get('/update', async (req, res) => {
 })
 
 app.get('/scrape', async (req, res) => {
-  try{
+  try {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
     await page.goto('https://sportsbook.draftkings.com/leagues/baseball/88671370')
     await page.waitForSelector('[class="event-cell__name-text"]')
-    const teamNamesArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) [class="event-cell__name-text"]'), element => element.textContent))
-    const ouArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) [class="sportsbook-outcome-cell"]'), element => element.textContent))
-    const moneylineArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) [class="sportsbook-odds american no-margin default-color"]'), element => element.textContent))
+    const teamNamesArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) > table [class="event-cell__name-text"]'), element => element.textContent))
+    const ouArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) > table [class="sportsbook-outcome-cell"]'), element => element.textContent))
+    const moneylineArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) > table [class="sportsbook-odds american no-margin default-color"]'), element => element.textContent))
 
     const objArr = teamNamesArr.map((team, index) => {
       const newObj = {}
