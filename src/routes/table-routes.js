@@ -1,7 +1,6 @@
 import prismaClient from '@prisma/client'
 import express from 'express'
 import { resetTable } from '../utils/table-utils.js'
-import cors from 'cors'
 
 const tableRouter = express()
 const { PrismaClient } = prismaClient
@@ -44,13 +43,24 @@ tableRouter.post('/reset', async (req, res) => {
         await prisma.sportstable.deleteMany({})
         const baseballHomeNonDiv2017Data = resetTable('BASEBALL', 2017, true, false)
         const baseballHomeDiv2017Data = resetTable('BASEBALL', 2017, true, true)
+
+        const baseballVisitorNonDiv2017Data = resetTable('BASEBALL', 2017, false, false)
+        const baseballVisitorDiv2017Data = resetTable('BASEBALL', 2017, false, true)
+
         const baseballHomeNonDiv2022Data = resetTable('BASEBALL', 2022, true, false)
         const baseballHomeDiv2022Data = resetTable('BASEBALL', 2022, true, true)
+        
+        const baseballVisitorNonDiv2022Data = resetTable('BASEBALL', 2022, false, false)
+        const baseballVisitorDiv2022Data = resetTable('BASEBALL', 2022, false, true)
         const finalArr = [
             ...baseballHomeNonDiv2017Data,
             ...baseballHomeDiv2017Data,
             ...baseballHomeNonDiv2022Data,
             ...baseballHomeDiv2022Data,
+            ...baseballVisitorNonDiv2017Data,
+            ...baseballVisitorDiv2017Data,
+            ...baseballVisitorNonDiv2022Data,
+            ...baseballVisitorDiv2022Data,
         ]
         await prisma.sportstable.createMany({
             data: finalArr,

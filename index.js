@@ -4,6 +4,8 @@ import authRouter from './src/routes/auth-routes.js'
 import tableRouter from './src/routes/table-routes.js'
 import draftKingsRouter from './src/routes/draft-kings-routes.js'
 import cors from 'cors'
+import puppeteer from 'puppeteer'
+
 
 const app = express();
 const { PrismaClient } = prismaClient
@@ -64,6 +66,47 @@ app.get('/update', async (req, res) => {
   }
   catch(e){
     res.status(500).send({error: e})
+  }
+})
+
+app.get('/scrape', async (req, res) => {
+  try {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    await page.goto('https://sportsbook.draftkings.com/leagues/baseball/88671370')
+    await page.waitForSelector('[class="event-cell__name-text"]')
+    const teamNamesArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) > table [class="event-cell__name-text"]'), element => element.textContent))
+    const ouArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) > table [class="sportsbook-outcome-cell"]'), element => element.textContent))
+    const moneylineArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) > table [class="sportsbook-odds american no-margin default-color"]'), element => element.textContent))
+
+    const objArr = teamNamesArr.map((team, index) => {
+      const newObj = {}
+      if(index % 2 !== 0){
+        newObj.game = `${teamNamesArr[index-1].split(' ')[0]}/${team.split(' ')[0]}`
+        const homeOUInfo = ouArr[index]?.split?.(isHomefav ? '-' : '+')
+        const homeOU = homeOUInfo && homeOUInfo[0] ? homeOUInfo[0].split?.(' ')[1] : null
+        const homeML = moneylineArr[index] || null
+        const roadML = moneylineArr[index-1] || null
+        newObj.ou = homeOU ? homeOU : null
+        newObj.home_ml = homeML
+        newObj.road_ml = roadML
+        newObj.pick = homeML.includes('-') ? 'FAV' : 'DOG'
+        return newObj
+      }
+      else {
+        return ''
+      }
+    }).filter((obj) => obj)
+
+    console.log(objArr)
+    console.log(teamNamesArr)
+    console.log(ouArr)
+    console.log(moneylineArr)
+    res.status(200).send('done')
+    await browser.close();
+  }
+  catch(e){
+    console.log(e)
   }
 })
 
