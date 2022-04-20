@@ -8,11 +8,16 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    
     steps:
       - uses: actions/checkout@v3
-        name: Build
-      - run: npm install
+      - name: Build Application
+        run: npm install
 
+  
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       name: Build
+  #     - run: npm install
