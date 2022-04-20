@@ -13,11 +13,19 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build Application
         run: npm install
+      - uses: actions/upload-artifact
+        with:
+          name: webpack-artifacts
+          path: public/
 
   
-  # test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       name: Build
-  #     - run: npm install
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact
+        with:
+          name: webpack-artifacts
+          path: public
+      - name: Test Application
+        run: npm
