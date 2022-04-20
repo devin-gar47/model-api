@@ -26,6 +26,6 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: webpack-artifacts
-          path: public
+          path: public/
       - name: Test Application
         run: npm
