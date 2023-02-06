@@ -73,11 +73,13 @@ app.get('/scrape', async (req, res) => {
   try {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
-    await page.goto('https://sportsbook.draftkings.com/leagues/baseball/88671370')
-    await page.waitForSelector('[class="event-cell__name-text"]')
-    const teamNamesArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) > table [class="event-cell__name-text"]'), element => element.textContent))
+    await page.goto('https://sportsbook.draftkings.com/leagues/baseball/mlb?category=innings&subcategory=team-total-runs---1st-5-innings')
+    // await page.waitForSelector('[class="event-cell__name-text"]')
+    const teamNamesArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div > div > div.sportsbook-event-accordion__accordion > a.sportsbook-event-accordion__title'), element => element.textContent + " "))
     const ouArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) > table [class="sportsbook-outcome-cell"]'), element => element.textContent))
     const moneylineArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) > table [class="sportsbook-odds american no-margin default-color"]'), element => element.textContent))
+
+    console.log(ouArr)
 
     const objArr = teamNamesArr.map((team, index) => {
       const newObj = {}
@@ -107,6 +109,22 @@ app.get('/scrape', async (req, res) => {
   }
   catch(e){
     console.log(e)
+    res.status(500).send({error: e})
+  }
+})
+
+app.get('/scrape-2', async (req, res) => {
+  try {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    await page.goto('https://sportsbook.draftkings.com/leagues/baseball/mlb?category=innings&subcategory=team-total-runs---1st-5-innings')
+    await page.waitForSelector('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div:nth-child(2) > div:nth-child(1) > div.sportsbook-event-accordion__accordion > a.sportsbook-event-accordion__title > div')
+    const teamNamesArr = await page.evaluate(() => Array.from(document.querySelectorAll('#root > section > section.sportsbook-wrapper__body > section > div.sportsbook-league-page__body > div > div.sportsbook-responsive-card-container__body > div > div > div.sportsbook-card-accordion__children-wrapper > div > div > div > div.sportsbook-event-accordion__accordion > a.sportsbook-event-accordion__title'), element => element.textContent))
+    console.log(teamNamesArr)
+    return res.status(200).send('success')
+  }
+  catch(e){
+    res.status(500).send(e)
   }
 })
 
