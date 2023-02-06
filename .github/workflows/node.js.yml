@@ -18,8 +18,18 @@ jobs:
           name: webpack-artifacts
           path: public/
 
+            build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install
+      - run: npm test
+
   
   test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
