@@ -9,7 +9,7 @@ const prisma = new PrismaClient()
 
 authRouter.post('/reset', async (req, res) => {
     try {
-        await prisma.user.deleteMany({})
+        await prisma.model_user.deleteMany({})
         res.send('complete')
     } catch (e) {
         res.status(500).send(e)
@@ -19,21 +19,23 @@ authRouter.post('/reset', async (req, res) => {
 authRouter.post('/signup', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
-        await prisma.user.create({
+        await prisma.model_user.create({
             data: {
                 role: req.body.role,
                 username: req.body.username,
                 password: hashedPassword,
             },
         })
+        console.log('added user')
         res.status(200).send('User created successfully')
     } catch (e) {
+        console.log(e)
         res.status(500).send(e)
     }
 })
 
 authRouter.post('/login', async (req, res) => {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.model_user.findUnique({
         where: {
             username: req.body.username,
         },

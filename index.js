@@ -13,7 +13,7 @@ const prisma = new PrismaClient()
 const port = process.env.PORT || 3030;
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://alex-model-project.herokuapp.com'],
+  origin: ['http://localhost:3000'],
   optionsSuccessStatus: 200,
   credentials: true
 }
