@@ -5,6 +5,7 @@ import tableRouter from './src/routes/table-routes.js'
 import draftKingsRouter from './src/routes/draft-kings-routes.js'
 import cors from 'cors'
 import puppeteer from 'puppeteer'
+import ServerlessHttp from 'serverless-http';
 
 
 const app = express();
@@ -132,6 +133,10 @@ app.use('/user', authRouter)
 app.use('/table', tableRouter)
 app.use('/draft-kings', draftKingsRouter)
 
-app.listen(port, () => {
-  console.log(`Application is running on port ${port}.`);
-});
+if (process.env.ENVIRONMENT === 'production') {
+  exports.handler = ServerlessHttp(app);
+} else {
+  app.listen(port, () => {
+    console.log(`Server is listening on port ${port}.`);
+  });
+}

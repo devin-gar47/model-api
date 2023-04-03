@@ -16,7 +16,7 @@ authRouter.post('/reset', async (req, res) => {
     }
 })
 
-authRouter.post('/signup', async (req, res) => {
+authRouter.post('/sign-up', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         await prisma.model_user.create({
@@ -27,7 +27,10 @@ authRouter.post('/signup', async (req, res) => {
             },
         })
         console.log('added user')
-        res.status(200).send('User created successfully')
+        res.status(200).send({
+            role: req.body.role,
+            username: req.body.username,
+        })
     } catch (e) {
         console.log(e)
         res.status(500).send(e)
