@@ -11,33 +11,32 @@ datasource db {
 }
 
 model sportstable {
-  id                        Int    @id @default(autoincrement())
-  ou                        String  @db.VarChar(10)
-  year                      Int
-  sport                     String @db.VarChar(40)
-  home                      Boolean
-  division                  Boolean
-  g1_fav_o2point5           String @db.VarChar(50)
-  g1_fav_o1point5OR3point5  String @db.VarChar(50)
-  g1_dog_o2point5           String @db.VarChar(50)
-  g1_dog_o1point5OR3point5  String @db.VarChar(50)
-  fav_o2point5              String @db.VarChar(50)
-  fav_o1point5OR3point5     String @db.VarChar(50)
-  dog_o2point5              String @db.VarChar(50)
-  dog_o1point5OR3point5     String @db.VarChar(50)
-  home_mlo2point5           String @db.VarChar(50)
-  home_mlo3point5           String @db.VarChar(50)
-  ifRoadMLOnePointFive      String @db.VarChar(50)
+  id                       Int     @id @default(autoincrement())
+  ou                       String  @db.VarChar(10)
+  year                     Int
+  sport                    String  @db.VarChar(40)
+  home                     Boolean
+  division                 Boolean
+  g1_fav_o2point5          String  @db.VarChar(50)
+  g1_fav_o1point5OR3point5 String  @db.VarChar(50)
+  g1_dog_o2point5          String  @db.VarChar(50)
+  g1_dog_o1point5OR3point5 String  @db.VarChar(50)
+  fav_o2point5             String  @db.VarChar(50)
+  fav_o1point5OR3point5    String  @db.VarChar(50)
+  dog_o2point5             String  @db.VarChar(50)
+  dog_o1point5OR3point5    String  @db.VarChar(50)
+  home_mlo2point5          String  @db.VarChar(50)
+  home_mlo3point5          String  @db.VarChar(50)
+  ifRoadMLOnePointFive     String  @db.VarChar(50)
 
   @@unique([ou, year, sport, home, division])
 }
 
-model User {
-  id                        Int    @id @default(autoincrement())
-  role                      String @default("USER")
-  username                  String @unique @db.VarChar(50)
-  password                  String @db.VarChar(100)
+model model_user {
+  id       Int    @id @default(autoincrement())
+  role     String @default("USER")
+  username String @unique @db.VarChar(50)
+  password String @db.VarChar(100)
 
   @@map("model_users")
-
 }

@@ -49,7 +49,7 @@ tableRouter.post('/reset', async (req, res) => {
 
         const baseballHomeNonDiv2022Data = resetTable('BASEBALL', 2022, true, false)
         const baseballHomeDiv2022Data = resetTable('BASEBALL', 2022, true, true)
-        
+
         const baseballVisitorNonDiv2022Data = resetTable('BASEBALL', 2022, false, false)
         const baseballVisitorDiv2022Data = resetTable('BASEBALL', 2022, false, true)
         const finalArr = [
