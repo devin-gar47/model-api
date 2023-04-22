@@ -1,7 +1,7 @@
 import prismaClient from '@prisma/client'
 import { generateAccessToken } from '../utils/jwt-utils.js'
 import express from 'express'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 const { PrismaClient } = prismaClient
 const authRouter = express()
