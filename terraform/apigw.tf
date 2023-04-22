@@ -8,7 +8,7 @@ resource "aws_iam_role" "invoke_lambda" {
   name = "apigw-lambda-role"
 }
 
-resource "aws_iam_policy_document" "apigw_invoke_lambda" {
+data "aws_iam_policy_document" "apigw_invoke_lambda" {
   statement {
     effect = "Allow"
 
