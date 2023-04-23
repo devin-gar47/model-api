@@ -16,7 +16,8 @@ api.register({
     createUser: async (c, event, context) => {
         const { username, password, role } = c.request.requestBody
         try {
-            const hashedPassword = bcrypt.hash(password, 10)
+            const hashedPassword = bcrypt.hashSync(password, 10)
+            prisma.model_user.create
             await prisma.model_user.create({
                 data: {
                     role: role,
@@ -34,6 +35,7 @@ api.register({
                 headers,
             }
         } catch (e) {
+            console.log(e)
             return {
                 statusCode: 500,
                 body: JSON.stringify({ error: e.message }),
