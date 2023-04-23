@@ -24,5 +24,5 @@ resource "aws_s3_object" "deps_object" {
   key    = "nodejs"
   source = local.dependencies_zip_path
 
-  etag = filemd5(local.dependencies_zip_path)
+  source_hash = filemd5(local.dependencies_zip_path)
 }

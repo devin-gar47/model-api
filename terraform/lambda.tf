@@ -1,7 +1,7 @@
 resource "aws_lambda_layer_version" "lambda_layer" {
-  s3_bucket  = aws_s3_bucket.deps.id
-  s3_key     = aws_s3_object.deps_object.key
-  layer_name = "${var.project_name}-deps"
+  s3_bucket    = aws_s3_bucket.deps.id
+  s3_key       = aws_s3_object.deps_object.key
+  layer_name   = "${var.project_name}-deps"
   skip_destroy = false
 
   source_code_hash = aws_s3_object.deps_object.key
@@ -37,18 +37,7 @@ resource "aws_lambda_permission" "apigw" {
   function_name = aws_lambda_function.api.arn
   principal     = "apigateway.amazonaws.com"
 
-  #--------------------------------------------------------------------------------
-  # Per deployment
-  #--------------------------------------------------------------------------------
-  # The /*/*  grants access from any method on any resource within the deployment.
-  # source_arn = "${aws_api_gateway_deployment.test.execution_arn}/*/*"
-
-  #--------------------------------------------------------------------------------
-  # Per API
-  #--------------------------------------------------------------------------------
-  # The /*/*/* part allows invocation from any stage, method and resource path
-  # within API Gateway REST API.
-  source_arn    = "${aws_api_gateway_rest_api.model_apigw.execution_arn}/*/*/*"
+  source_arn = "${aws_api_gateway_rest_api.model_apigw.execution_arn}/*/*/*"
 }
 
 resource "aws_lambda_function" "api" {
@@ -58,7 +47,7 @@ resource "aws_lambda_function" "api" {
   handler          = "index.handler"
   layers           = [aws_lambda_layer_version.lambda_layer.arn]
   source_code_hash = filebase64sha256("${path.module}/app.zip")
-  timeout = 180
+  timeout          = 180
 
   runtime = "nodejs18.x"
 
@@ -69,6 +58,7 @@ resource "aws_lambda_function" "api" {
   environment {
     variables = {
       DATABASE_URL = var.db_url
+      ACCESS_TOKEN_SECRET : var.access_token
     }
   }
 }

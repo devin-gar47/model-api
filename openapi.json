@@ -31,11 +31,11 @@
                             }
                         }
                     },
-                    "400":{
+                    "400": {
                         "$ref": "#/components/responses/400"
                     }
                 },
-                "x-amazon-apigateway-integration":{
+                "x-amazon-apigateway-integration": {
                     "httpMethod": "POST",
                     "payloadFormatVersion": "1.0",
                     "type": "AWS_PROXY",
@@ -43,25 +43,40 @@
                 }
             }
         },
-        "/table/get-test-data":{
-            "get": {
-                "description": "Get test data.",
-                "operationId": "getTestData",
-                "responses": {
-                    "200": {
-                        "description": "Test data successfully retrieved.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
+        "/user/login": {
+            "description": "Authenticate user.",
+            "post": {
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginUserRequest"
                             }
                         }
                     }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User was able to login successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginUserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    }
+                },
+                "x-amazon-apigateway-integration": {
+                    "httpMethod": "POST",
+                    "payloadFormatVersion": "1.0",
+                    "type": "AWS_PROXY",
+                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:209984124586:function:model-project-api/invocations"
                 }
             }
         }
@@ -83,6 +98,28 @@
                 }
             },
             "CreateUserResponse": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    }
+                }
+            },
+            "LoginUserRequest": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "LoginUserResponse": {
                 "type": "object",
                 "properties": {
                     "username": {
