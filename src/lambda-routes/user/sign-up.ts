@@ -5,8 +5,10 @@ const { PrismaClient } = prismaClient
 const prisma = new PrismaClient()
 
 const headers = {
-    'content-type': 'application/json',
-    'access-control-allow-origin': '*',
+    'Content-Type': 'application/json',
+    "Access-Control-Allow-Headers" : "Content-Type",
+    'Access-Control-Allow-Origin': '*',
+    "Access-Control-Allow-Methods": "OPTIONS,POST"
 }
 
 export async function createUser(c) {

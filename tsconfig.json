@@ -6,6 +6,5 @@
       "esModuleInterop": true,
       "lib": ["es6"],
       "moduleResolution": "node"
-      
     }
 }

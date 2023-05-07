@@ -1,0 +1,157 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Model API",
+        "version": "1.0"
+    },
+    "servers": [{ "url": "nothing-yet.com" }],
+    "paths": {
+        "/user/sign-up": {
+            "description": "Create a new user.",
+            "post": {
+                "operationId": "createUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User is created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateUserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    }
+                },
+                "x-amazon-apigateway-integration": {
+                    "httpMethod": "POST",
+                    "payloadFormatVersion": "1.0",
+                    "type": "AWS_PROXY",
+                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:209984124586:function:model-project-api/invocations",
+                    "default": {}
+                }
+            }
+        }
+    },
+    "/user/login": {
+    "description": "Authenticate user.",
+    "post": {
+        "operationId": "loginUser",
+        "requestBody": {
+            "required": true,
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/LoginUserRequest"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "User was able to login successfully",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/LoginUserResponse"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "$ref": "#/components/responses/400"
+            }
+        },
+        "x-amazon-apigateway-integration": {
+            "httpMethod": "POST",
+            "payloadFormatVersion": "1.0",
+            "type": "AWS_PROXY",
+            "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:209984124586:function:model-project-api/invocations"
+        }
+    }
+},
+    "components": {
+        "schemas": {
+            "CreateUserRequest": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateUserResponse": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    }
+                }
+            },
+            "LoginUserRequest": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "LoginUserResponse": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "400": {
+                "description": "Bad Request",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "default": "Bad Request"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "default": "Invalid request body."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

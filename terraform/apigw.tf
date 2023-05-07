@@ -10,7 +10,6 @@ resource "aws_api_gateway_deployment" "apigw_deployment" {
   triggers = {
     redeployment = sha1(jsonencode(aws_api_gateway_rest_api.model_apigw.body))
   }
-
   lifecycle {
     create_before_destroy = true
   }
