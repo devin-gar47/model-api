@@ -7,6 +7,57 @@
     "servers": [{ "url": "nothing-yet.com" }],
     "paths": {
         "/user/sign-up": {
+            "options":{
+                "summary": "CORS support",
+                "description": "Enable CORS by returning correct headers",
+                "tags": ["CORS"],
+                "responses": {
+                    "200": {
+                        "description": "Default response for CORS method",
+                        "headers": {
+                            "Access-Control-Allow-Origin": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "Access-Control-Allow-Methods": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "Access-Control-Allow-Headers": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "content": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "x-amazon-apigateway-integration": {
+                    "type": "mock",
+                    "requestTemplates": {
+                        "application/json": {
+                            "statusCode": "200"
+                        }
+                    },
+                    "responses": {
+                        "default": {
+                            "statusCode": 200,
+                            "responseParameters": {
+                                "method.response.header.Access-Control-Allow-Headers": "'''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''",
+                                "method.response.header.Access-Control-Allow-Methods": "'''*'''",
+                                "method.response.header.Access-Control-Allow-Origin": "'''*'''"
+                            },
+                            "responseTemplates": {
+                                "application/json": "{}"
+                            }
+                        }
+                    }
+                }
+            },
             "description": "Create a new user.",
             "post": {
                 "operationId": "createUser",
@@ -39,11 +90,63 @@
                     "httpMethod": "POST",
                     "payloadFormatVersion": "1.0",
                     "type": "AWS_PROXY",
-                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:209984124586:function:model-project-api/invocations"
+                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:209984124586:function:model-project-api/invocations",
+                    "default": {}
                 }
             }
         },
         "/user/login": {
+            "options":{
+                "summary": "CORS support",
+                "description": "Enable CORS by returning correct headers",
+                "tags": ["CORS"],
+                "responses": {
+                    "200": {
+                        "description": "Default response for CORS method",
+                        "headers": {
+                            "Access-Control-Allow-Origin": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "Access-Control-Allow-Methods": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "Access-Control-Allow-Headers": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "content": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "x-amazon-apigateway-integration": {
+                    "type": "mock",
+                    "requestTemplates": {
+                        "application/json": {
+                            "statusCode": "200"
+                        }
+                    },
+                    "responses": {
+                        "default": {
+                            "statusCode": 200,
+                            "responseParameters": {
+                                "method.response.header.Access-Control-Allow-Headers": "'''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''",
+                                "method.response.header.Access-Control-Allow-Methods": "'''*'''",
+                                "method.response.header.Access-Control-Allow-Origin": "'''*'''"
+                            },
+                            "responseTemplates": {
+                                "application/json": "{}"
+                            }
+                        }
+                    }
+                }
+            },
             "description": "Authenticate user.",
             "post": {
                 "operationId": "loginUser",

@@ -1,5 +1,6 @@
 locals {
-  db_identifier = "${var.project_name}-db"
+  db_identifier          = "${var.project_name}-db"
+  db_snapshot_identifier = "${local.db_identifier}-snapshot"
 }
 resource "aws_security_group" "public_access_db_sg" {
   name        = "${var.project_name}-db"
@@ -23,19 +24,24 @@ resource "aws_security_group" "public_access_db_sg" {
   }
 }
 
+data "aws_db_snapshot" "db_snapshot" {
+  most_recent            = true
+  db_instance_identifier = local.db_identifier
+}
+
 
 resource "aws_db_instance" "database" {
-  allocated_storage         = 20
-  identifier                = local.db_identifier
-  db_name                   = "modelProjectDB"
-  engine                    = "postgres"
-  engine_version            = "15.2"
-  instance_class            = "db.t3.micro"
-  username                  = var.db_username
-  password                  = var.db_password
-  publicly_accessible       = true
-  apply_immediately         = true
-  final_snapshot_identifier = "${local.db_identifier}-final-snapshot"
-  db_subnet_group_name      = module.vpc.database_subnet_group_name
-  vpc_security_group_ids    = [aws_security_group.public_access_db_sg.id]
+  allocated_storage      = 20
+  identifier             = local.db_identifier
+  db_name                = "modelProjectDB"
+  engine                 = "postgres"
+  engine_version         = "15.2"
+  instance_class         = "db.t3.micro"
+  username               = var.db_username
+  password               = var.db_password
+  publicly_accessible    = true
+  apply_immediately      = true
+  db_subnet_group_name   = module.vpc.database_subnet_group_name
+  vpc_security_group_ids = [aws_security_group.public_access_db_sg.id]
+  skip_final_snapshot    = true
 }
