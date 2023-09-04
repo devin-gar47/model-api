@@ -22,7 +22,7 @@ resource "aws_s3_bucket_versioning" "deps_versioning" {
 }
 
 resource "aws_s3_object" "deps_object" {
-  bucket = aws_s3_bucket.deps.id 
+  bucket = aws_s3_bucket.deps.id
   key    = "nodejs"
   source = local.dependencies_zip_path
 

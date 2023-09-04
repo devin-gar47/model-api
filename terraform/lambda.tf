@@ -9,28 +9,6 @@ resource "aws_lambda_layer_version" "lambda_layer" {
   compatible_runtimes = ["nodejs18.x"]
 }
 
-data "aws_iam_policy_document" "invoke_lambda_policy" {
-  statement {
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
-    }
-
-    actions = ["sts:AssumeRole"]
-  }
-}
-
-resource "aws_iam_role_policy_attachment" "basic" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  role       = aws_iam_role.iam_for_lambda_execution.name
-}
-resource "aws_iam_role" "iam_for_lambda_execution" {
-  name               = "iam_for_lambda_execution"
-  assume_role_policy = data.aws_iam_policy_document.invoke_lambda_policy.json
-}
-
 resource "aws_lambda_permission" "apigw" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
@@ -54,19 +32,16 @@ resource "aws_lambda_function" "api" {
   depends_on = [
     aws_cloudwatch_log_group.lambda_log_group,
   ]
-
-  environment {
-    variables = {
-      DATABASE_URL = var.db_url
-      ACCESS_TOKEN_SECRET : var.access_token
-    }
-  }
+  
 }
 
 resource "aws_cloudwatch_log_group" "lambda_log_group" {
-  name              = "/aws/lambda/${var.project_name}-api"
+  name              = "${var.project_name}-lambda"
   retention_in_days = 7
 }
 
-
+resource "aws_cloudwatch_log_stream" "foo" {
+  name           = "lambda-stream"
+  log_group_name = aws_cloudwatch_log_group.lambda_log_group.name
+}
 
