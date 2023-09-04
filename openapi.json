@@ -6,6 +6,36 @@
     },
     "servers": [{ "url": "nothing-yet.com" }],
     "paths": {
+        "/": {
+            "description": "Testing to see if I still got it",
+            "get": {
+                "operationId": "default",
+                "responses": {
+                    "200": {
+                        "description": "Test works!",
+                        "content": {
+                            "application/json": {
+                                "schema" :{
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-amazon-apigateway-integration": {
+                    "httpMethod": "POST",
+                    "payloadFormatVersion": "1.0",
+                    "type": "AWS_PROXY",
+                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:983447509996:function:model-project-api/invocations",
+                    "default": {}
+                }
+            }
+        },
         "/user/sign-up": {
             "options":{
                 "summary": "CORS support",
@@ -60,7 +90,7 @@
             },
             "description": "Create a new user.",
             "post": {
-                "operationId": "createUser",
+                "operationId": "signUp",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -90,7 +120,7 @@
                     "httpMethod": "POST",
                     "payloadFormatVersion": "1.0",
                     "type": "AWS_PROXY",
-                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:209984124586:function:model-project-api/invocations",
+                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:983447509996:function:model-project-api/invocations",
                     "default": {}
                 }
             }
@@ -149,7 +179,7 @@
             },
             "description": "Authenticate user.",
             "post": {
-                "operationId": "loginUser",
+                "operationId": "login",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -179,12 +209,78 @@
                     "httpMethod": "POST",
                     "payloadFormatVersion": "1.0",
                     "type": "AWS_PROXY",
-                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:209984124586:function:model-project-api/invocations"
+                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:983447509996:function:model-project-api/invocations"
+                }
+            }
+        },
+        "/test": {
+            "description": "Testing to see if I still got it",
+            "get": {
+                "operationId": "test",
+                "responses": {
+                    "200": {
+                        "description": "Test works!",
+                        "content": {
+                            "application/json": {
+                                "schema" :{
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-amazon-apigateway-integration": {
+                    "httpMethod": "POST",
+                    "payloadFormatVersion": "1.0",
+                    "type": "AWS_PROXY",
+                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:983447509996:function:model-project-api/invocations",
+                    "default": {}
+                }
+            }
+        },
+        "/test2": {
+            "description": "Testing to see if I still got it",
+            "get": {
+                "operationId": "test2",
+                "responses": {
+                    "200": {
+                        "description": "Test works!",
+                        "content": {
+                            "application/json": {
+                                "schema" :{
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "x-amazon-apigateway-integration": {
+                    "httpMethod": "POST",
+                    "payloadFormatVersion": "1.0",
+                    "type": "AWS_PROXY",
+                    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:983447509996:function:model-project-api/invocations",
+                    "default": {}
                 }
             }
         }
     },
     "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
         "schemas": {
             "CreateUserRequest": {
                 "type": "object",
@@ -232,6 +328,35 @@
                         "type": "string"
                     }
                 }
+            },
+            "DraftKingsResponse": {
+                "type": "object",
+                "properties": {
+                    "home_team": {
+                        "type": "string"
+                    },
+                    "away_team": {
+                        "type": "string"
+                    },
+                    "game": {
+                        "type": "string"
+                    },
+                    "home_ml": {
+                        "type": "string"
+                    },
+                    "away_ml": {
+                        "type": "string"
+                    },
+                    "ou": {
+                        "type": "string"
+                    },
+                    "runLine": {
+                        "type": "string"
+                    },
+                    "pick": {
+                        "type": "string"
+                    }
+                }
             }
         },
         "responses": {
@@ -255,5 +380,10 @@
                 }
             }
         }
-    }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
 }

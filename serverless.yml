@@ -1,0 +1,28 @@
+service: model-api
+
+provider:
+  name: aws
+  
+functions:
+  api:
+    handler: ./build/index.handler
+    events:
+    - http:
+        path: test
+        method: GET
+        cors: true
+    - http:
+        path: test2
+        method: GET
+        cors: true
+
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 4000
+    noTimeout: true
+    noPrependStageInUrl: true
+    reloadHandler: true

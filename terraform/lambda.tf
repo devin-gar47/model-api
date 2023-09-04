@@ -32,6 +32,13 @@ resource "aws_lambda_function" "api" {
   depends_on = [
     aws_cloudwatch_log_group.lambda_log_group,
   ]
+
+  environment {
+    variables = {
+      ACCESS_TOKEN_SECRET = var.ACCESS_TOKEN_SECRET
+      REFRESH_TOKEN_SECRET = var.REFRESH_TOKEN_SECRET
+    }
+  }
   
 }
 
